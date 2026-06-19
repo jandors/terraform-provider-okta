@@ -22,13 +22,12 @@ against the provider version in use when a type is actually implemented.
 ### Now (committed)
 - Multi-stage pipeline: `okta-base-config` + `okta-dev`/`test`/`prod` (built; awaiting cloud wiring).
 - `okta-dev-local` developer sandbox (built; pending `BASE_CONFIG_READ_TOKEN`).
-- `okta-org-export` brownfield adoption process (spec approved; plan next).
+- `okta-org-export` brownfield adoption process (**built + validated end-to-end** against a trial org).
 - `groups` module (built).
 
 ### Next
 - **Cloud wiring for the stages** — Azure backend (Phase A), Okta service apps per org (Phase B), GitHub federated identities + environments/secrets (D2/D3, E2/E3), token substitution, **prod required-reviewers approval gate**. (See `2026-06-15-...-management.md`.)
 - **`BASE_CONFIG_READ_TOKEN`** repo secret so `okta-dev-local` CI can read the private base-config sibling.
-- **`okta-dev-local` OAuth2 docs** — document the service-app/`OKTA_API_*` auth path alongside the SSWS default (we already used OAuth2 against the trial org).
 - **More `okta-base-config` modules** — build out by domain (apps, policies, auth servers, branding) following the `groups` pattern; each gets an example + CI validation.
 - **`discover.py` discriminators** — apps `type_map` (one `/apps` list → many TF types) and per-`type` policy queries.
 - **Live drift detection** — confirm the nightly `drift.yml` works end-to-end once stages are wired.
