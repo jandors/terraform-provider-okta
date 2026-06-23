@@ -43,6 +43,11 @@ exposes outputs other config can consume.
 
 ## `app_oauth` module
 
+**Direction:** this module onboards OIDC **clients / relying parties** — Okta acts
+as the **OP/IdP** issuing tokens to the app. Onboarding an external OIDC entity
+*as an IdP* (inbound federation, Okta-as-RP) is a different resource
+(`okta_idp_oidc`/`okta_idp_social`) and is out of scope — see Out of scope.
+
 ### Input — `var.apps`
 ```hcl
 map(object({
@@ -197,11 +202,13 @@ DEV → TEST → PROD per the existing pipeline. No pipeline changes required.
 
 - App types other than OIDC and SAML (bookmark, SWA, auto-login, etc.) — future
   sibling modules.
-- **Inbound SAML federation** — onboarding an external entity *as an IdP*
-  (`okta_idp_saml` + `okta_idp_saml_key`, Okta-as-SP). This is a separate
-  resource family with distinct concerns (issuer/cert handling, subject
-  matching, JIT provisioning, account linking) and gets its own design/module.
-  This spec covers only the SP direction (`app_saml`, Okta-as-IdP).
+- **Inbound federation (SAML *and* OIDC)** — onboarding an external entity *as an
+  IdP* that Okta delegates to: `okta_idp_saml` (+ `okta_idp_saml_key`) and
+  `okta_idp_oidc`/`okta_idp_social`, with Okta as the SP/RP. A separate resource
+  family with distinct concerns (issuer/cert or RP client creds, subject
+  matching, JIT provisioning, account linking) — its own federation
+  design/module. This spec covers only the outbound/client direction
+  (`app_saml` = Okta-as-IdP, `app_oauth` = Okta-as-OP).
 - App sign-on policies (`okta_app_signon_policy*`), OAuth API scopes/grants,
   per-app schema properties — separate modules later.
 - Individual **user** assignments (`okta_app_user`) — structural config only;
