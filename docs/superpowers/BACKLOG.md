@@ -29,6 +29,7 @@ against the provider version in use when a type is actually implemented.
 - **Cloud wiring for the stages** — Azure backend (Phase A), Okta service apps per org (Phase B), GitHub federated identities + environments/secrets (D2/D3, E2/E3), token substitution, **prod required-reviewers approval gate**. (See `2026-06-15-...-management.md`.)
 - **`BASE_CONFIG_READ_TOKEN`** repo secret so `okta-dev-local` CI can read the private base-config sibling.
 - **More `okta-base-config` modules** — build out by domain (apps, policies, auth servers, branding) following the `groups` pattern; each gets an example + CI validation.
+- **`idp_saml` inbound-federation module** — onboard external entities *as IdPs* (`okta_idp_saml` + `okta_idp_saml_key`, Okta-as-SP): issuer/cert, subject matching, JIT provisioning, account linking. Distinct from the `app_saml` (SP-onboarding) module; its own brainstorm/spec.
 - **`discover.py` discriminators** — apps `type_map` (one `/apps` list → many TF types) and per-`type` policy queries.
 - **Live drift detection** — confirm the nightly `drift.yml` works end-to-end once stages are wired.
 - **Promotion dry-run** — exercise the `v1.1.0` ref-bump flow DEV→TEST→PROD (plan Task F1).

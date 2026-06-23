@@ -97,6 +97,13 @@ grant_types = distinct(concat(
 
 ## `app_saml` module
 
+**Direction:** this module covers **SP onboarding** — Okta acts as the **IdP** and
+the external entity is the **Service Provider** (the SaaS app Okta logs users
+into). Inputs describe the SP: its ACS URL (`sso_url`) and entity ID
+(`audience`). Onboarding an external entity *as an IdP* (inbound federation,
+Okta-as-SP) is a **different resource** (`okta_idp_saml`) and is explicitly out
+of scope here — see Out of scope.
+
 ### Input — `var.apps`
 ```hcl
 map(object({
@@ -190,6 +197,11 @@ DEV → TEST → PROD per the existing pipeline. No pipeline changes required.
 
 - App types other than OIDC and SAML (bookmark, SWA, auto-login, etc.) — future
   sibling modules.
+- **Inbound SAML federation** — onboarding an external entity *as an IdP*
+  (`okta_idp_saml` + `okta_idp_saml_key`, Okta-as-SP). This is a separate
+  resource family with distinct concerns (issuer/cert handling, subject
+  matching, JIT provisioning, account linking) and gets its own design/module.
+  This spec covers only the SP direction (`app_saml`, Okta-as-IdP).
 - App sign-on policies (`okta_app_signon_policy*`), OAuth API scopes/grants,
   per-app schema properties — separate modules later.
 - Individual **user** assignments (`okta_app_user`) — structural config only;
